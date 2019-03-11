@@ -1,6 +1,7 @@
 #include "StatusTree.h"
 
 int main(int argc, char **argv) {
+    size_t bufferSize = BUFFER_SIZE;
     if(argc != 3) {
         puts("Expected 2 strings");
         exit(-1);
@@ -17,11 +18,9 @@ int main(int argc, char **argv) {
     sscanf(line, "%d", &numLines);
 
     for (int i = 0; i < numLines; i++) {
-        scanf("%[^\r\n]", line);
-        scanf("%*c");
-        scanf("%*c");
+        getline(&line, &bufferSize, stdin);
         STATUS *data = malloc(sizeof(STATUS));
-        sscanf(line, "%d%s", &data->laptopNum, data->status);
+        sscanf(line, "%d%[^\r\n]", &data->laptopNum, data->status);
         if(!add(&root, data)) {
             printf("Data not added because laptop with number %d already exists", data->laptopNum);
             free(data);
